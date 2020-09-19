@@ -6,6 +6,8 @@ import com.api.restful.demo.payroll.exception.EmployeeNotFoundException;
 import com.api.restful.demo.payroll.repository.EmployeeRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +34,6 @@ class EmployeeController {
         this.assembler = assembler;
     }
 
-    // Aggregate root
-
     @GetMapping("/employees")
     public CollectionModel<EntityModel<Employee>> all() {
         List<EntityModel<Employee>> modelList = repository.findAll().stream()
@@ -44,11 +44,11 @@ class EmployeeController {
 
 
     @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee newEmployee) {
-        return repository.save(newEmployee);
-    }
+    EntityModel<Employee> newEmployee(@RequestBody Employee newEmployee) {
 
-    // Single item
+        return assembler.toModel(repository.save(newEmployee));
+
+    }
 
     @GetMapping("/employees/{id}")
     public EntityModel<Employee> one(@PathVariable Long id) {
