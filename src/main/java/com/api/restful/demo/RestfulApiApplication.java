@@ -1,13 +1,13 @@
-package com.api.restdefinitive.demo;
+package com.api.restful.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestApiApplication {
+public class RestfulApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RestApiApplication.class, args);
+        SpringApplication.run(RestfulApiApplication.class, args);
     }
 
 }

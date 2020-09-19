@@ -1,4 +1,4 @@
-package com.api.restdefinitive.demo.payroll;
+package com.api.restful.demo.payroll.model;
 
 import java.util.Objects;
 
@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-class Employee {
+public class Employee {
 
     @Id
     @GeneratedValue
@@ -18,7 +18,7 @@ class Employee {
     public Employee() {
     }
 
-    Employee(String name, String role) {
+    public Employee(String name, String role) {
 
         this.name = name;
         this.role = role;
