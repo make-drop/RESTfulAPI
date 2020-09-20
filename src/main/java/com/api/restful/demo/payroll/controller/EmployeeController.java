@@ -27,18 +27,18 @@ public
 class EmployeeController {
 
     private final EmployeeRepository repository;
-    private final EmployeeModelAssembler assembler;
+    private final EmployeeModelAssembler employeeModelAssembler;
 
-    EmployeeController(EmployeeRepository repository, EmployeeModelAssembler assembler) {
+    EmployeeController(EmployeeRepository repository, EmployeeModelAssembler employeeModelAssembler) {
         this.repository = repository;
-        this.assembler = assembler;
+        this.employeeModelAssembler = employeeModelAssembler;
     }
 
 
     @GetMapping("/employees")
     public CollectionModel<EntityModel<Employee>> all() {
         List<EntityModel<Employee>> modelList = repository.findAll().stream()
-                .map(assembler::toModel).collect(Collectors.toList());
+                .map(employeeModelAssembler::toModel).collect(Collectors.toList());
         return CollectionModel.of(modelList,
                 linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
     }
@@ -47,7 +47,7 @@ class EmployeeController {
     @PostMapping("/employees")
     ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
 
-        EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
+        EntityModel<Employee> entityModel = employeeModelAssembler.toModel(repository.save(newEmployee));
 
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -59,7 +59,7 @@ class EmployeeController {
 
         Employee employee = repository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
-        return assembler.toModel(employee);
+        return employeeModelAssembler.toModel(employee);
     }
 
     @PutMapping("/employees/{id}")
@@ -76,7 +76,7 @@ class EmployeeController {
                     return repository.save(newEmployee);
                 });
 
-        EntityModel<Employee> entityModel = assembler.toModel(updatedEmployee);
+        EntityModel<Employee> entityModel = employeeModelAssembler.toModel(updatedEmployee);
         return ResponseEntity
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(entityModel);
