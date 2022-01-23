@@ -1,2 +1,2 @@
 # RESTfulAPI
-RESTful api with HATEOAS and derby db connection
+A Java Spring RESTful api with HATEOAS and derby db connection
